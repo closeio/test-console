@@ -1,0 +1,21 @@
+{
+  "name": "test-console",
+  "version": "0.1.0",
+  "description": "Library for handling console logs in tests in a flexible way",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Trey Cucco <trey.cucco@close.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.65",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4"
+  }
+}
