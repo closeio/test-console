@@ -11,6 +11,8 @@
     "npm": ">=8"
   },
   "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
