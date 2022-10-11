@@ -1,4 +1,4 @@
-import { patchConsoleMethods, LogTest } from '../src';
+import { patchConsoleMethods } from '../src';
 
 describe('public api', () => {
   describe('patchConsoleMethods', () => {
@@ -6,10 +6,10 @@ describe('public api', () => {
     let errorSpy;
 
     beforeEach(() => {
-      logSpy = jest.spyOn(global.console, 'log').mockImplementation(() => {});
+      logSpy = jest.spyOn(global.console, 'log').mockImplementation(() => null);
       errorSpy = jest
         .spyOn(global.console, 'error')
-        .mockImplementation(() => {});
+        .mockImplementation(() => null);
 
       patchConsoleMethods(
         ['debug', 'log', 'info', 'warn', 'error'],
