@@ -77,6 +77,7 @@ const argMatches = (matcher: Matcher, arg: string) => {
 const getTestFileStackTraceLines = (
   filenameRegex = /\.test\.[jt]sx?/i,
 ): string[] => {
+  /* c8 ignore next */
   const stack = Error().stack || '';
 
   const stackLines = stack.split('\n');
@@ -95,6 +96,7 @@ const toString = (val: any): string => {
     // Some things will return undefined from stringify (such as functions) so we'll fallback
     // to the string representation in those instances. However, functions work properly with
     // the toString method above, so this should never happens.
+    /* c8 ignore next */
     return stringified || str;
   }
 
