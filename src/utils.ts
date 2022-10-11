@@ -6,7 +6,13 @@ interface GetTestLocationArgs {
   getTestName?: () => string;
 }
 
-// Returns a string with the test name and the lines in the stack trace that are in test files.
+// Returns a string with information about where the function was called from
+//
+// getTestName - should return the name of the current test. For instance with
+//   expect this should be `() => expect.getState().currentTestName`
+// filenameRegex - will pull lines out of the stack trace that match the
+//   regeexp. For instance `/\.test\.[jt]sx?$/` to match test files with a
+//   .test.ts suffix.
 export const getTestLocation = ({
   filenameRegex,
   getTestName,
@@ -26,6 +32,9 @@ export const getTestLocation = ({
   return testLines.join('\n');
 };
 
+// Given a list of test and the args passed to a console method, returns the
+// LogLevel of the first test that matches the args. Or returns null if no
+// tests match the args.
 export const getLogLevel = (
   tests: LogTest[],
   consoleArgs: ConsoleArgs,
@@ -41,12 +50,18 @@ export const getLogLevel = (
   return null;
 };
 
-// console.log (and friends) can take format strings and args, such as:
+// Prepares console.log (and friends) args to be tested against string
+// and RegExp matchers.
+//
+// Console.log (and friends) can take format strings and args, such as:
 // console.log('Warning: Failed %s type: %s', 'prop', 'The prop ...')
+//
 // This method uses the same format method as the console methods and
 // attempts to interpret the args as a foramt string and args. If it
-// does, the formatted string (what is actually printed out) is passed
-// to the level checker.
+// does, the formatted string is returned.
+//
+// If the first arg cannot be interpreted as a format string, all args
+// are stringified and the resulting string array is returned.
 const prepareArgs = (args: ConsoleArgs): string[] => {
   const [formatString] = args;
 
@@ -61,9 +76,11 @@ const prepareArgs = (args: ConsoleArgs): string[] => {
   return args.map(toString);
 };
 
+// Checks to see if a matcher matches any of the given args.
 const argsMatch = (matcher: Matcher, args: string[]) =>
   args.some((arg) => argMatches(matcher, arg));
 
+// Checks to see if a matcher matches a specific arg.
 const argMatches = (matcher: Matcher, arg: string) => {
   if (typeof matcher === 'string') {
     return arg.includes(matcher);
@@ -71,9 +88,8 @@ const argMatches = (matcher: Matcher, arg: string) => {
   return matcher.test(arg);
 };
 
-// Look at the current stack trace and return any lines that are from a test file, this is to
-// help identify which tests log messages are coming from. If a log message is triggered by
-// something async, it may not have a a test file in its stack trace.
+// Gets the current stack trace and returns an array of lines that match the
+// given RegExp
 const getTestFileStackTraceLines = (
   filenameRegex = /\.test\.[jt]sx?/i,
 ): string[] => {
@@ -84,7 +100,7 @@ const getTestFileStackTraceLines = (
   return stackLines.filter((line) => filenameRegex.test(line));
 };
 
-// Convert any kind of console.log arg to a string that can then be matched against.
+// Attempt to convert any kind of value into a string.
 const toString = (val: any): string => {
   // Try a simple null/undefined-safe toString
   const str = `${val}`;
