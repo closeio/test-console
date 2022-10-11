@@ -1,4 +1,4 @@
-import { LogLevel, LogTest, ConsoleMethods, ConsoleArgs } from "./types";
+import { LogLevel, LogTest, ConsoleMethods } from "./types";
 import { getLogLevel, getTestLocation } from "./utils";
 import { levels } from "./consts";
 

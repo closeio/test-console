@@ -1,7 +1,7 @@
 import { ConsoleArgs, Matcher, LogTest, LogLevel } from "./types";
 import { format } from "util";
 
-export interface GetTestLocationArgs {
+interface GetTestLocationArgs {
   filenameRegex?: RegExp;
   getTestName?: () => string;
 }
@@ -61,7 +61,8 @@ const prepareArgs = (args: ConsoleArgs): string[] => {
   return args.map(toString);
 };
 
-const argsMatch = (matcher: Matcher, args: string[]) => args.some;
+const argsMatch = (matcher: Matcher, args: string[]) =>
+  args.some((arg) => argMatches(matcher, arg));
 
 const argMatches = (matcher: Matcher, arg: string) => {
   if (typeof matcher === "string") {
@@ -76,18 +77,14 @@ const argMatches = (matcher: Matcher, arg: string) => {
 const getTestFileStackTraceLines = (
   filenameRegex = /\.test\.[jt]sx?/i
 ): string[] => {
-  const stack = Error().stack;
-
-  if (!stack) {
-    return [];
-  }
+  const stack = Error().stack || "";
 
   const stackLines = stack.split("\n");
   return stackLines.filter((line) => filenameRegex.test(line));
 };
 
 // Convert any kind of console.log arg to a string that can then be matched against.
-export const toString = (val: any): string => {
+const toString = (val: any): string => {
   // Try a simple null/undefined-safe toString
   const str = `${val}`;
 
@@ -97,7 +94,7 @@ export const toString = (val: any): string => {
 
     // Some things will return undefined from stringify (such as functions) so we'll fallback
     // to the string representation in those instances. However, functions work properly with
-    // the toString method above, so hopefully this never happens.
+    // the toString method above, so this should never happens.
     return stringified || str;
   }
 
