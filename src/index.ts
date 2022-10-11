@@ -36,15 +36,19 @@ const patchConsoleMethods = (
         const logLevel = getLogLevel(tests, args);
 
         if (logLevel === null || levels[logLevel] >= thresholdValue) {
+          const location = getTestLocation({ filenameRegex, getTestName });
           originalMethod(
             ...args,
-            getTestLocation({ filenameRegex, getTestName }),
+            /* c8 ignore next */
+            location ? `\n\n${location}` : '',
           );
         }
       } catch (ex) {
+        const location = getTestLocation({ filenameRegex, getTestName });
         originalMethod(
           ...args,
-          getTestLocation({ filenameRegex, getTestName }),
+          /* c8 ignore next */
+          location ? `\n\n${location}` : '',
         );
       }
     };

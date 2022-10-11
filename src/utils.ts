@@ -11,7 +11,7 @@ interface GetTestLocationArgs {
 // getTestName - should return the name of the current test. For instance with
 //   expect this should be `() => expect.getState().currentTestName`
 // filenameRegex - will pull lines out of the stack trace that match the
-//   regeexp. For instance `/\.test\.[jt]sx?$/` to match test files with a
+//   regeexp. For instance `/\.test\.[jt]sx/` to match test files with a
 //   .test.ts suffix.
 export const getTestLocation = ({
   filenameRegex,

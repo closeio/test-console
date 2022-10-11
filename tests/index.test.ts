@@ -19,7 +19,7 @@ describe('public api', () => {
           { matcher: 'is error', level: 'ERROR' },
         ],
         {
-          filenameRegex: /\.test\.[jt]sx?$/,
+          filenameRegex: /\.test\.[jt]sx?/,
           getTestName: () => expect.getState().currentTestName,
           threshold: 'WARNING',
         },
