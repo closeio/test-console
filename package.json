@@ -1,5 +1,5 @@
 {
-  "name": "test-console",
+  "name": "@closeio/test-console",
   "version": "0.1.0",
   "description": "Library for handling console logs in tests in a flexible way",
   "keywords": [],
