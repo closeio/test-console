@@ -1,6 +1,6 @@
-import { LogLevel, LogTest, ConsoleMethods } from "./types";
-import { getLogLevel, getTestLocation } from "./utils";
-import { levels } from "./consts";
+import { LogLevel, LogTest, ConsoleMethods } from './types';
+import { getLogLevel, getTestLocation } from './utils';
+import { levels } from './consts';
 
 export interface PatchConsoleMethodsOptions {
   filenameRegex?: RegExp;
@@ -16,8 +16,8 @@ const patchConsoleMethods = (
   {
     filenameRegex,
     getTestName,
-    threshold = "ERROR",
-  }: PatchConsoleMethodsOptions
+    threshold = 'ERROR',
+  }: PatchConsoleMethodsOptions,
 ) => {
   const thresholdValue = levels[threshold];
 
@@ -32,13 +32,13 @@ const patchConsoleMethods = (
         if (logLevel === null || levels[logLevel] >= thresholdValue) {
           originalMethod(
             ...args,
-            getTestLocation({ filenameRegex, getTestName })
+            getTestLocation({ filenameRegex, getTestName }),
           );
         }
       } catch (ex) {
         originalMethod(
           ...args,
-          getTestLocation({ filenameRegex, getTestName })
+          getTestLocation({ filenameRegex, getTestName }),
         );
       }
     };

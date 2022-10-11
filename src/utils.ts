@@ -1,5 +1,5 @@
-import { ConsoleArgs, Matcher, LogTest, LogLevel } from "./types";
-import { format } from "util";
+import { ConsoleArgs, Matcher, LogTest, LogLevel } from './types';
+import { format } from 'util';
 
 interface GetTestLocationArgs {
   filenameRegex?: RegExp;
@@ -17,18 +17,18 @@ export const getTestLocation = ({
     let location = `In Test [${getTestName()}]`;
 
     if (testLines.length) {
-      location += "\n" + testLines.join("\n");
+      location += '\n' + testLines.join('\n');
     }
 
     return location;
   }
 
-  return testLines.join("\n");
+  return testLines.join('\n');
 };
 
 export const getLogLevel = (
   tests: LogTest[],
-  consoleArgs: ConsoleArgs
+  consoleArgs: ConsoleArgs,
 ): LogLevel | null => {
   const args = prepareArgs(consoleArgs);
 
@@ -50,7 +50,7 @@ export const getLogLevel = (
 const prepareArgs = (args: ConsoleArgs): string[] => {
   const [formatString] = args;
 
-  if (typeof formatString === "string") {
+  if (typeof formatString === 'string') {
     const formatted = format(...args);
 
     if (formatted !== formatString) {
@@ -65,7 +65,7 @@ const argsMatch = (matcher: Matcher, args: string[]) =>
   args.some((arg) => argMatches(matcher, arg));
 
 const argMatches = (matcher: Matcher, arg: string) => {
-  if (typeof matcher === "string") {
+  if (typeof matcher === 'string') {
     return arg.includes(matcher);
   }
   return matcher.test(arg);
@@ -75,11 +75,11 @@ const argMatches = (matcher: Matcher, arg: string) => {
 // help identify which tests log messages are coming from. If a log message is triggered by
 // something async, it may not have a a test file in its stack trace.
 const getTestFileStackTraceLines = (
-  filenameRegex = /\.test\.[jt]sx?/i
+  filenameRegex = /\.test\.[jt]sx?/i,
 ): string[] => {
-  const stack = Error().stack || "";
+  const stack = Error().stack || '';
 
-  const stackLines = stack.split("\n");
+  const stackLines = stack.split('\n');
   return stackLines.filter((line) => filenameRegex.test(line));
 };
 
@@ -89,7 +89,7 @@ const toString = (val: any): string => {
   const str = `${val}`;
 
   // That won't work for some kinds of objects, in that situation, JSON.stringify
-  if (str === "[object Object]") {
+  if (str === '[object Object]') {
     const stringified = JSON.stringify(val);
 
     // Some things will return undefined from stringify (such as functions) so we'll fallback

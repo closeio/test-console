@@ -1,4 +1,4 @@
-import { LogLevel } from "./types";
+import { LogLevel } from './types';
 
 export const levels: Record<LogLevel, number> = {
   DEBUG: 0,
