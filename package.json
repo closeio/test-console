@@ -1,6 +1,6 @@
 {
   "name": "@closeio/test-console",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Library for handling console logs in tests in a flexible way",
   "keywords": [],
   "author": "Trey Cucco <trey.cucco@close.com>",
@@ -26,12 +26,17 @@
   "files": [
     "lib/**/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/closeio/test-console.git"
+  },
   "scripts": {
     "clean": "rm -rf ./lib",
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
     "prepack": "npm run build",
+    "check": "npm run typecheck && npm run prettier:check && npm run lint && npm run test:coverage",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
