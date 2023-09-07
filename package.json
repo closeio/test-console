@@ -1,6 +1,6 @@
 {
   "name": "@closeio/test-console",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Library for handling console logs in tests in a flexible way",
   "keywords": [],
   "author": "Trey Cucco <trey.cucco@close.com>",
