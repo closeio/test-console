@@ -7,6 +7,7 @@ export type ConsoleArgs = any[];
 export interface LogTest {
   matcher: Matcher;
   level: LogLevel;
+  fix?: string;
 }
 
 export type ConsoleMethod = (args: ConsoleArgs) => void;

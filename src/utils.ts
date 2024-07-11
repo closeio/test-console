@@ -33,21 +33,33 @@ export const getTestLocation = ({
 };
 
 // Given a list of test and the args passed to a console method, returns the
+// LogTest of the first test that matches the args. Or returns null if no
+// tests match the args.
+export const getMatchingTest = (
+  tests: LogTest[],
+  consoleArgs: ConsoleArgs,
+): LogTest | null => {
+  const args = prepareArgs(consoleArgs);
+
+  const matchingTest = tests.find(({ matcher }) => argsMatch(matcher, args));
+
+  if (matchingTest) {
+    return matchingTest;
+  }
+
+  return null;
+};
+
+// Given a list of test and the args passed to a console method, returns the
 // LogLevel of the first test that matches the args. Or returns null if no
 // tests match the args.
 export const getLogLevel = (
   tests: LogTest[],
   consoleArgs: ConsoleArgs,
 ): LogLevel | null => {
-  const args = prepareArgs(consoleArgs);
+  const matchingTest = getMatchingTest(tests, consoleArgs);
 
-  const matchingTest = tests.find(({ matcher }) => argsMatch(matcher, args));
-
-  if (matchingTest) {
-    return matchingTest.level;
-  }
-
-  return null;
+  return matchingTest?.level ?? null;
 };
 
 // Prepares console.log (and friends) args to be tested against string

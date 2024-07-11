@@ -16,7 +16,7 @@ describe('public api', () => {
         [
           { matcher: 'is info', level: 'INFO' },
           { matcher: 'is warning', level: 'WARNING' },
-          { matcher: 'is error', level: 'ERROR' },
+          { matcher: 'is error', level: 'ERROR', fix: 'this is a fix' },
         ],
         {
           filenameRegex: /\.test\.[jt]sx?/,
@@ -36,21 +36,25 @@ describe('public api', () => {
     describe('at threshold', () => {
       it('logs the message', () => {
         console.log('is warning');
-        expect(logSpy).toHaveBeenCalled();
+        expect(logSpy).toHaveBeenCalledTimes(1);
       });
     });
 
     describe('above threshold', () => {
       it('logs the message', () => {
         console.error('is error');
-        expect(errorSpy).toHaveBeenCalled();
+        expect(errorSpy).toHaveBeenCalledTimes(2);
+        expect(errorSpy).toHaveBeenNthCalledWith(
+          2,
+          'Proposed fix: this is a fix',
+        );
       });
     });
 
     describe('no log matcher', () => {
       it('logs the message', () => {
         console.error('nothing matches this');
-        expect(errorSpy).toHaveBeenCalled();
+        expect(errorSpy).toHaveBeenCalledTimes(1);
       });
     });
 

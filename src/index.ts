@@ -1,5 +1,5 @@
 import { LogLevel, LogTest, ConsoleMethods } from './types';
-import { getLogLevel, getTestLocation } from './utils';
+import { getMatchingTest, getTestLocation } from './utils';
 import { levels } from './consts';
 
 export interface PatchConsoleMethodsOptions {
@@ -33,15 +33,19 @@ const patchConsoleMethods = (
 
     global.console[consoleMethod] = (...args) => {
       try {
-        const logLevel = getLogLevel(tests, args);
+        const match = getMatchingTest(tests, args);
 
-        if (logLevel === null || levels[logLevel] >= thresholdValue) {
+        if (match === null || levels[match.level] >= thresholdValue) {
           const location = getTestLocation({ filenameRegex, getTestName });
           originalMethod(
             ...args,
             /* c8 ignore next */
             location ? `\n\n${location}` : '',
           );
+          const fixMessage = match?.fix;
+          if (fixMessage) {
+            originalMethod(`Proposed fix: ${match.fix}`);
+          }
         }
       } catch (ex) {
         const location = getTestLocation({ filenameRegex, getTestName });
